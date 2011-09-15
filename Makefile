@@ -18,9 +18,7 @@
 #
 
 CFLAGS  := -fPIC -g -Wall -lc -Wunused -I.
-CFLAGS  += -fprofile-arcs -ftest-coverage
-
-LDFLAGS := -fprofile-arcs -ftest-coverage
+COVER   := -fprofile-arcs -ftest-coverage
 
 LCOV    := lcov --directory . --base-directory .
 GENHTML := genhtml --prefix $(shell dirname `pwd`)
@@ -61,9 +59,10 @@ apidocs:
 	$(CDOC) --root doc/api *.c *.h -v
 
 test/run: test/run.o ctest-int.o $(test_o)
+	$(CC) $(LDFLAGS) $(COVER) -o $@ $+
 
 ctest-int.o: ctest.c ctest.h
-	$(CC) $(CFLAGS) -DCTEST_TEST_SUITES -c -o $@ $<
+	$(CC) $(CFLAGS)  $(COVER) -DCTEST_TEST_SUITES -c -o $@ $<
 
 libctest.so: ctest.o
 	$(CC) -shared -Wl,-soname,$(SONAME) -o $@.$(VERSION) $+
