@@ -1,0 +1,12 @@
+*.o
+*.gc??
+lcov.info
+gmon.out
+callgrind.out.*
+*.swp
+
+libctest.so*
+test/run
+
+doc/api
+doc/coverage
