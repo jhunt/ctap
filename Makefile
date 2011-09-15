@@ -17,6 +17,8 @@
 #  along with ctest.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+#################################################################
+
 CFLAGS  := -fPIC -g -Wall -lc -Wunused -I.
 COVER   := -fprofile-arcs -ftest-coverage
 
@@ -27,10 +29,16 @@ CDOC    := cdoc
 SONAME  := libctest.so
 VERSION := 1.0.0
 
-
 test_o := test/assertions.o test/base.o
 
+#################################################################
+
 default: libctest.so
+
+install: default
+	install -o root -g root -m 0644 $(SONAME).$(VERSION) /usr/lib
+	install -o root -g root -m 0644 ctest.h /usr/include
+	ldconfig
 
 .PHONY: clean test
 clean:
@@ -57,6 +65,8 @@ apidocs:
 	mkdir -p doc/api
 	rm -rf doc/api/*
 	$(CDOC) --root doc/api *.c *.h -v
+
+#################################################################
 
 test/run: test/run.o ctest-int.o $(test_o)
 	$(CC) $(LDFLAGS) $(COVER) -o $@ $+
