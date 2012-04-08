@@ -36,7 +36,7 @@ test_o := test/assertions.o test/base.o
 default: libctest.so
 
 install: default
-	install -o root -g root -m 0644 $(SONAME).$(VERSION) $(DESTDIR)/usr/lib
+	install -o root -g root -m 0644 $(SONAME).$(VERSION) $(DESTDIR)$(LIBDIR)
 	install -o root -g root -m 0644 ctest.h $(DESTDIR)/usr/include
 	ldconfig
 
