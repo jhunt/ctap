@@ -49,6 +49,7 @@ install: default
 clean:
 	rm -f *.o test/*.o lcov.info lib*.so* test/run
 	find . -name '*.gc??' | xargs rm -f
+	rm -f libctest*.tar.gz libctest*.deb
 	rm -rf doc/api/* doc/coverage/*
 
 test: test/run
