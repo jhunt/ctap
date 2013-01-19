@@ -10,3 +10,6 @@ test/run
 
 doc/api
 doc/coverage
+
+*.tar.gz
+*.deb

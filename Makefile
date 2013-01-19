@@ -26,8 +26,12 @@ LCOV    := lcov --directory . --base-directory .
 GENHTML := genhtml --prefix $(shell dirname `pwd`)
 CDOC    := cdoc
 
+VERSION := 1.0.1
+SOVERS  := 1.0
 SONAME  := libctest.so
-VERSION := 1.0.0
+LIBDIR  := /usr/lib
+SOVNAME := $(SONAME).$(SOVERS)
+DISTDIR := libctest$(SOVERS)-$(VERSION)
 
 test_o := test/assertions.o test/base.o
 
@@ -36,9 +40,10 @@ test_o := test/assertions.o test/base.o
 default: libctest.so
 
 install: default
-	install -o root -g root -m 0644 $(SONAME).$(VERSION) $(DESTDIR)$(LIBDIR)
+	install -d -o root -g root -m 0755 $(DESTDIR)$(LIBDIR)
+	install -o root -g root -m 0644 $(SONAME).$(VERSION) $(DESTDIR)$(LIBDIR)/$(SOVNAME)
+	install -d -o root -g root -m 0755 $(DESTDIR)/usr/include
 	install -o root -g root -m 0644 ctest.h $(DESTDIR)/usr/include
-	ldconfig
 
 .PHONY: clean test
 clean:
@@ -66,6 +71,15 @@ apidocs:
 	rm -rf doc/api/*
 	$(CDOC) --root doc/api *.c *.h -v
 
+dist:
+	rm -rf $(DISTDIR)
+	mkdir $(DISTDIR)
+	cp *.c *.h $(DISTDIR)
+	cp Makefile $(DISTDIR)
+	tar -czvf $(DISTDIR).tar.gz $(DISTDIR)
+	rm -rf $(DISTDIR)
+
+
 #################################################################
 
 test/run: test/run.o ctest-int.o $(test_o)
@@ -75,7 +89,7 @@ ctest-int.o: ctest.c ctest.h
 	$(CC) $(CFLAGS)  $(COVER) -DCTEST_TEST_SUITES -c -o $@ $<
 
 libctest.so: ctest.o
-	$(CC) -shared -Wl,-soname,$(SONAME) -o $@.$(VERSION) $+
+	$(CC) -shared -Wl,-soname,$(SOVNAME) -o $@.$(VERSION) $+
 	ln -sf $@.$(VERSION) $@
 
 

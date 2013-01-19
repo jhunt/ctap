@@ -1,0 +1,17 @@
+name: libctest1.0
+version: 1.0.1
+Maintainer: James Hunt <james@niftylogic.com>
+Section: admin
+Homepage: http://clockwork.niftylogic.com
+Depends:
+ - ${shlibs:Depends}
+ #- libc6 (>= 2.14)
+Architecture: amd64
+Description: |
+  C Test Framework
+  Test-driven development for C coders.
+
+postinst: |
+  #!/bin/bash
+  set -e
+  ldconfig
