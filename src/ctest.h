@@ -1,5 +1,5 @@
 /*
-  Copyright 2011 James Hunt <james@jameshunt.us>
+  Copyright 2014 James Hunt <james@jameshunt.us>
 
   This file is part of ctest - a C Unit Testing Framework.
 
@@ -25,86 +25,45 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef void (*test_suite_f)(void);
+typedef void (*ctest_f)(void);
 
-struct test_suite {
-	const char    *name;
-	test_suite_f   runner;
-	int            active;
-};
-
-#ifdef CTEST_TEST_SUITES
-void ctest_unfail(void);
-#endif
 
 void test(const char *s);
 
-int add_test_suite(const char *name, test_suite_f runner, int active);
-int activate_test(const char *name);
-int run_tests(int argc, char **argv);
+void ct_unfail(void);
+void ct_add_test(const char *name, ctest_f runner);
+int  ct_run_tests(int argc, char **argv);
 
 /**
-  Declare a Test Suite
-
-  This macro should be called from the `main` function of the
-  test runner.  It declares and register a test suite with
-  ctest.
-
-  This call should be matched by a call to @NEW_SUITE to
-  define the test suite.
- */
-#define TEST_SUITE(x) extern void test_suite_ ## x(); add_test_suite(#x, test_suite_ ## x, 0)
-
-/**
-  Define a New Test Case
+  Define a Test Case
 
   This macro provides the function prototype header for a test
   case, and should be used as such:
 
   <code>
-  NEW_TEST(mytest) {
+  TEST(mytest) {
     // ... assertions and testing here ...
   }
   </code>
 
-  In order to run the defined test case from a test suite,
-  see @RUN_TEST.
+  Tests will be run automatically when DONE_TESTING is seen.
  */
-#define NEW_TEST(x)  void test_case_  ## x(void)
+#define TEST(x)  void ct_test_ ## x(void); \
+                 ct_add_test(#x, ct_test_ ## x); \
+                 void ct_test_ ## x(void)
 
 /**
-  Define a New Test Suite
+  Run the Tests
 
-  This macro provides the function prototype header for a test
-  suite (declared using TEST_SUITE in the test runner's `main`
-  function).
-
-  Example:
+  This macro invokes all defined test cases.
 
   <code>
-  int main(int argc, char **argv)
-  {
-    TEST_SUITE(some_tests);
-    // ... more test suite declarations ...
-  }
-
-  NEW_SUITE(some_tests)
-  {
-    RUN_TEST(test1);
-    RUN_TEST(test2);
-    // ... etc.
-  }
+  DONE_TESTING;
   </code>
- */
-#define NEW_SUITE(x) void test_suite_ ## x(void)
 
-/**
-  Run a Test Case, from a Test Suite
-
-  This macro invokes a test case function, and is intended
-  to be called from with a @NEW_SUITE function body.
+  Tests will be run in the order they were defined.
  */
-#define RUN_TEST(x)  test_case_ ## x()
+#define DONE_TESTING int main(int c, char **l) { return ct_run_tests(c,l); }
 
 /* ASSERTIONS */
 

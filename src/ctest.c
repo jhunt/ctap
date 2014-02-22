@@ -20,12 +20,20 @@
 #include <stdio.h>
 #include "ctest.h"
 
+struct ctest {
+	const char *name;
+	ctest_f     runner;
+};
+
 int TEST_PRINT_PASS = 0;
 int TEST_PRINT_FAIL = 1;
 
+static int __SUBTESTS   = 0;
 static int __TESTS      = 0;
 static int __ASSERTIONS = 0;
 static int __FAILURES   = 0;
+
+static struct ctest *CTESTS = NULL;
 
 /**********************************************************/
 
@@ -34,47 +42,7 @@ static inline void __test_failed(void)
 	++__FAILURES;
 }
 
-static int num_test_suites = 0;
-static struct test_suite *test_suites = NULL;
-
 /**********************************************************/
-
-#ifdef CTEST_TEST_SUITES
-void ctest_unfail(void)
-{
-	--__FAILURES;
-}
-#endif
-
-int add_test_suite(const char *name, test_suite_f runner, int active)
-{
-	struct test_suite *ts;
-
-	num_test_suites++;
-	test_suites = realloc(test_suites, (num_test_suites * sizeof(struct test_suite)));
-	if (!test_suites) {
-		fprintf(stderr, "Failed to register suite '%s'\n", name);
-		exit(99);
-	}
-	ts = test_suites + (num_test_suites - 1);
-	ts->name   = name;
-	ts->runner = runner;
-	ts->active = active;
-	return 0;
-}
-
-int activate_test(const char *name)
-{
-	int i;
-
-	for (i = 0; i < num_test_suites; i++) {
-		if (strcmp(test_suites[i].name, name) == 0) {
-			test_suites[i].active = 1;
-			return 1;
-		}
-	}
-	return 0;
-}
 
 void test(const char *s)
 {
@@ -82,9 +50,29 @@ void test(const char *s)
 	printf("%s\n", s);
 }
 
-int run_tests(int argc, char **argv)
+/**********************************************************/
+
+void ct_unfail(void)
 {
-	int run_active = 0;
+	--__FAILURES;
+}
+
+void ct_add_test(const char *name, ctest_f runner)
+{
+	struct ctest *t;
+
+	CTESTS = realloc(CTESTS, (__SUBTESTS * sizeof(struct ctest)));
+	if (!CTESTS) {
+		fprintf(stderr, "Failed to register suite '%s'\n", name);
+		exit(99);
+	}
+	t = CTESTS + (__SUBTESTS - 1);
+	t->name   = name;
+	t->runner = runner;
+}
+
+int ct_run_tests(int argc, char **argv)
+{
 	int i;
 
 	while (*(++argv)) {
@@ -95,22 +83,17 @@ int run_tests(int argc, char **argv)
 			TEST_PRINT_PASS = 0;
 			TEST_PRINT_FAIL = 0;
 		} else {
-			run_active += activate_test(*argv);
+			fprintf(stderr, "Unrecognized option '%s'\n", *argv);
+			exit(1);
 		}
 	}
 
-	for (i = 0; i < num_test_suites; i++) {
-		if (run_active) {
-			if (test_suites[i].active) {
-				(*(test_suites[i].runner))();
-			}
-		} else {
-			(*(test_suites[i].runner))();
-		}
+	for (i = 0; i < __SUBTESTS; i++) {
+		(*(CTESTS[i].runner))();
 	}
 
-	free(test_suites);
-	test_suites = NULL;
+	free(CTESTS);
+	CTESTS = NULL;
 
 	printf("\n"
 	       "--------------------\n"

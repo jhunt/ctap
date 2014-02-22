@@ -1,0 +1,3 @@
+SUBDIRS=src . t
+
+ACLOCAL_AMFLAGS=-I m4

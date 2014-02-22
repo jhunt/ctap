@@ -1,15 +1,40 @@
-*.o
-*.gc??
-lcov.info
-gmon.out
+# intermediate files
+.*.swp
+*~
+*.out
+*.tar.gz
+*.deb
+.libs
 callgrind.out.*
-*.swp
 
+# built objects
+*.o
+t/*.t
+*.gc??
+*.lo
+*.la
+docs
+coverage
+
+# autotools
+*.in
+config.h
+config.log
+config.status
+configure
+configure.scan
+autoscan.log
+autom4te.cache
+aclocal.m4
+.deps
+stamp-h1
+Makefile
+build-aux/*
+m4/*.m4
+libtool
+
+########################################
 libctest.so*
 test/run
 
-doc/api
-doc/coverage
 
-*.tar.gz
-*.deb
