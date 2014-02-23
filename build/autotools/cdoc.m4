@@ -11,5 +11,5 @@ changecom('#')
 AC_DEFUN_ONCE([AX_PROG_CDOC],
 [
   AC_CHECK_PROG(CDOC, cdoc, cdoc)
-  AM_CONDITIONAL(HAVE_CDOC, test -n "$CDOC")
+  AM_CONDITIONAL(HAVE_CDOC, test "x$CDOC" != "")
 ])

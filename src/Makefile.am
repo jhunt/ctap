@@ -9,9 +9,12 @@ endif
 
 ###########################################
 
-if HAVE_CDOC
 docs:
+if HAVE_CDOC
 	@rm -fr docs
 	@mkdir -p docs
 	cdoc --root docs -v *.c *.h
 endif
+
+clean-local:
+	@rm -fr docs
