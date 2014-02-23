@@ -20,7 +20,27 @@
 #include "ctap.h"
 
 tests {
-	plan(32);
-	ok(1 == 1, "only one test");
-	exit(0);
+	no_plan();
+
+	ctap_assert(1, "success!",    1, "file.c", 1001);
+	ctap_assert(0, "autodiag",    1, "file.c", 1002);
+	ctap_assert(0, "no-autodiag", 0, "file.c", 1003);
+	ctap_assert(0, "no-file",     1, NULL,     1004);
+	ctap_assert(0, NULL,          1, "file.c", 1004);
+	diag("this is a diag message");
+
+	skip("[skip reason here]") {
+		ctap_assert(1, "skipped ok",   1, "file.c", 2001);
+		ctap_assert(0, "skipped fail", 1, "file.c", 2002);
+		ctap_assert(0, NULL,           0, NULL,     2003);
+	}
+
+	todo("not quite ready") {
+		ctap_assert(1, "todo ok",   1, "file.c", 3001);
+		ctap_assert(0, "todo fail", 0, "file.c", 3002);
+		ctap_assert(0, "no file",   1, NULL,     3003);
+		ctap_assert(0, NULL,        0, NULL,     3004);
+	}
+
+	done_testing();
 }

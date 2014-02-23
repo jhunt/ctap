@@ -16,7 +16,7 @@ static struct {
 	int fail;                   /* failures (diagnostic use only) */
 
 	int x;                      /* used for for loop trickery */
-	int exited;                 /* is this a controlled exit? */
+	int evaled;                 /* is this a controlled exit? */
 
 	struct {
 		int   type;
@@ -24,6 +24,24 @@ static struct {
 	} stack[CTAP_STACK_SIZE];   /* stack of SKIP / TODO */
 	int i;                      /* stack index */
 } CTAP;
+
+static int eval_test_run(void)
+{
+	CTAP.evaled = 1;
+	if (CTAP.expect >= 0 && CTAP.expect != CTAP.tests) {
+		fprintf(stdout, "1..%d\n", CTAP.expect);
+		ctap_diag(stderr, "Looks like you planned %i tests but ran %i.",
+				CTAP.expect, CTAP.tests);
+		return 1;
+	} else {
+		fprintf(stdout, "1..%d\n", CTAP.tests);
+	}
+	if (CTAP.fail > 0) {
+		ctap_diag(stderr, "Looks like you failed %d test%s of %d.",
+			CTAP.fail, (CTAP.fail == 1 ? "" : "s"), CTAP.tests);
+	}
+	return CTAP.fail ? 1 : 0;
+}
 
 int ctapX() { return CTAP.x = 0; }
 int ctapY() { return CTAP.x < 1; }
@@ -43,8 +61,8 @@ void ctap_diag(FILE *io, const char *msg, ...)
 
 void ctap_bail(const char *msg)
 {
-	ctap_diag(stderr, "# bailing out: %s", msg);
-	CTAP.exited = 1;
+	ctap_diag(stderr, "bailing out: %s", msg);
+	CTAP.evaled = 1;
 	exit(1);
 }
 
@@ -63,7 +81,7 @@ int ctap_assert(int ok, const char *msg, int autodiag, const char *file, unsigne
 				(ok ? "" : "not "), CTAP.tests,
 				(msg ? " - " : ""), (msg ? msg   : ""),
 				CTAP.stack[CTAP.i].msg);
-		if (!ok) {
+		if (!ok && autodiag) {
 			ctap_diag(stdout, "  Failed (TODO) test '%s'", msg);
 			if (file) ctap_diag(stdout, "  at %s line %d.", file, line);
 		}
@@ -113,16 +131,8 @@ void ctap_push(int type, const char *msg)
 
 void ctap_atexit(void)
 {
-	if (CTAP.exited != 0) return;
-	if (CTAP.expect == CTAP.tests) {
-		fprintf(stdout, "1..%d\n", CTAP.expect);
-		if (CTAP.fail > 0) {
-			ctap_diag(stderr, "Looks like you failed %d test%s of %d.",
-				CTAP.fail, (CTAP.fail == 1 ? "" : "s"), CTAP.tests);
-		}
-		_exit(CTAP.fail ? 1 : 0);
-	}
-	ctap_diag(stderr, "exiting, and done_testing() not seen!");
+	if (CTAP.evaled != 0) return;
+	_exit(eval_test_run());
 }
 
 void plan(int n)
@@ -150,13 +160,7 @@ void no_plan(void)
 
 void done_testing(void)
 {
-	fprintf(stdout, "1..%d\n", CTAP.tests);
-	if (CTAP.fail > 0) {
-		ctap_diag(stderr, "Looks like you failed %d test%s of %d.",
-			CTAP.fail, (CTAP.fail == 1 ? "" : "s"), CTAP.tests);
-	}
-	CTAP.exited = 1;
-	exit(CTAP.fail ? 1 : 0);
+	exit(eval_test_run());
 }
 
 void ctap_eq_u64(uint64_t x, uint64_t y, const char *msg, const char *file, unsigned long line)

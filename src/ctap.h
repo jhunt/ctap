@@ -66,7 +66,7 @@ void ctap_ne_string(const char *x, const char *y, const char *msg, const char *f
 #define isnt_string(x,y,msg) ctap_ne_string((x), (y), (msg), __FILE__, __LINE__)
 
 #define bail(msg) ctap_bail(msg)
-#define diag(msg, ...) ctap_diag(stderr, msg, __VA_ARGS__)
+#define diag(...) ctap_diag(stderr, __VA_ARGS__)
 
 #define tests   int ctap_tests(void)
 #define subtest for (ctapX(); ctapY(); ctapZ())

@@ -1,0 +1,21 @@
+ok 1 - success!
+not ok 2 - autodiag
+#   Failed test 'autodiag'
+#   at file.c line 1002.
+not ok 3 - no-autodiag
+not ok 4 - no-file
+#   Failed test 'no-file'
+not ok 5
+#   Failed test '(null)'
+#   at file.c line 1004.
+# this is a diag message
+ok 6 # skip [skip reason here]
+ok 7 # skip [skip reason here]
+ok 8 # skip [skip reason here]
+ok 9 - todo ok # TODO not quite ready
+not ok 10 - todo fail # TODO not quite ready
+not ok 11 - no file # TODO not quite ready
+#   Failed (TODO) test 'no file'
+not ok 12 # TODO not quite ready
+1..12
+# Looks like you failed 4 tests of 12.

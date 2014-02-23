@@ -1,4 +1,2 @@
 #!/bin/sh
-./05-premature
-[[ $? == 0 ]] && exit 1;
-exit 0;
+./extap 1 05-premature ./05-premature

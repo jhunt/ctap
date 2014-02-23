@@ -1,0 +1,15 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+sub skip
+{
+	my ($pre, $left) = @_;
+	return if !$left;
+	print qq[${pre}skip("$left") {\n];
+	skip("$pre ", $left-1);
+	print qq[${pre}}\n];
+}
+
+skip("\t", $ARGV[0] || 32);

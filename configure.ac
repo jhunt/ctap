@@ -7,10 +7,7 @@ AC_CONFIG_MACRO_DIR([build/autotools])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 LT_INIT
 
-#AX_TEST_COVERAGE
 ENABLE_GCOV
-#AM_CONDITIONAL([GCOV_ENABLED], test "xno" == "xyes")
-#AM_CONDITIONAL([HAVE_CDOC], test "xno" == "xyes")
 
 AC_PROG_CC
 AX_PROG_CDOC

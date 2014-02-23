@@ -22,4 +22,5 @@
 tests {
 	plan(1);
 	bail("bailing early");
-}
+	ok(1 == 1, "1 == 1"); // LCOV_EXCL_LINE
+} // LCOV_EXCL_LINE
