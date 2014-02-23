@@ -15,6 +15,7 @@ if HAVE_CDOC
 	@mkdir -p docs
 	cdoc --root docs -v *.c *.h
 endif
+.PHONY: docs
 
 clean-local:
 	@rm -fr docs
