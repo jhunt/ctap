@@ -1,0 +1,16 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+close STDERR;
+open my $pipe, "-|", @ARGV;
+my ($ok, $fail) = (0, 0);
+while (<$pipe>) {
+	next if m/^#.*/;
+	if (s/^ok\b/not ok/)      { $ok++;
+	} elsif (s/^not ok\b/ok/) { $fail++; }
+	print;
+}
+close $pipe;
+exit 1 if $ok;

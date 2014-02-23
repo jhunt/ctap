@@ -27,24 +27,27 @@ tests {
 		const char *s2 = "A second string";
 		const char *s3 = "Hello, Testing!";
 
-		is_string(s1,   s3,   "s1 == s3");
-		is_string(s1,   s1,   "s1 == s1");
+		is_string(s1,   s2,   "s1 == s2");
+		is_string(s1,   NULL, "s1 == NULL");
+		is_string(NULL, s3,   "NULL == s3");
+		is_string(NULL, NULL, "null strings are not equiv.");
 
-		isnt_string(s1, s2,   "s1 != s2");
-		isnt_string(s1, NULL, "s1 != NULL");
-		isnt_string(NULL, NULL, "null strings are not equiv.");
+		isnt_string(s1,   s3,   "s1 != s3");
 	}
 
 	subtest {
-		ok(1 != 4, "ok(1 != 4)");
-		isnt_int(1, 4, "1 != 4");
-		isnt_int(-42, 42, "-42 != 42");
+		isnt_int(56, 56, "56 != 56");
+		isnt_int(-9, -9, "-9 != -9");
 
-		is_int( 5,  5, " 5 ==  5");
-		is_int(-5, -5, "-5 == -5");
+		is_int( 5,  -5, " 5 ==  -5");
+		is_int(-5,   5, "-5 ==   5");
+		is_int(-6, -89, "-6 == -89");
+		is_int( 6, -89, " 6 == -89");
+		is_int(-6,  89, "-6 ==  89");
+		is_int( 6,  89, " 6 ==  89");
 
-		is_uint(77, 77, "77U == 77U");
-		isnt_uint(77, 78, "77U != 78U");
+		is_uint(43, 42, "43U ==  42U");
+		isnt_uint(42, 42, "42U != 42U");
 	}
 
 	subtest {
@@ -55,11 +58,12 @@ tests {
 		char s1[] = "string";
 		char s2[] = "string";
 
-		is_ptr(p1, p3, "p1 == p3");
+		is_ptr(p1, p2,   "p1 == p2");
+		is_ptr(p1, NULL, "p1 == NULL");
+		is_pointer(p1, p2,   "p1 == p2");
 
-		isnt_ptr(p1, NULL, "p1 != NULL");
-		isnt_ptr(p1, p2,   "p1 != p2");
-		isnt_ptr(s1, s2,   "s1 != s2 (diff mem / same string)");
+		isnt_ptr(p1, p3, "p1 != p3");
+		isnt_pointer(p1, p3, "p1 != p3");
 	}
 
 	done_testing();

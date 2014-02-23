@@ -1,3 +1,3 @@
 SUBDIRS=src . t
 
-ACLOCAL_AMFLAGS=-I m4
+ACLOCAL_AMFLAGS=-I build/autotools

@@ -9,7 +9,6 @@ callgrind.out.*
 
 # built objects
 *.o
-t/*.t
 *.gc??
 *.lo
 *.la
@@ -29,12 +28,19 @@ aclocal.m4
 .deps
 stamp-h1
 Makefile
-build-aux/*
-m4/*.m4
 libtool
+build/autotools/*.m4
+!build/autotools/as-compiler-flag.m4
+!build/autotools/cdoc.m4
+!build/autotools/gcov.m4
 
 ########################################
 libctest.so*
 test/run
 
-
+t/00-asserts.t
+t/01-fail
+t/02-skip.t
+t/03-todo.t
+t/04-bail
+t/05-premature
