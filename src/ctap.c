@@ -234,6 +234,7 @@ void ctap_ne_string(const char *x, const char *y, const char *msg, const char *f
 
 int main(int argc, char **argv)
 {
+	no_plan();
 	ctap_tests();
 	done_testing();
 }
