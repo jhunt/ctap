@@ -22,13 +22,13 @@ This is TAP, so you can use prove and all of its -v option to control
 output:
 
 
-    \$ prove t/01-sample
+    $ prove t/01-sample
     t/01-sample .. ok
     All tests successful.
     Files=1, Tests=1,  0 wallclock secs ( 0.02 usr +  0.00 sys =  0.02 CPU)
     Result: PASS
 
-    \$ prove -v t/01-sample 
+    $ prove -v t/01-sample 
     t/01-sample ..
     ok 1 - 1 does in fact equal 1
     1..1
@@ -68,13 +68,13 @@ Building libctap.so
 
 If you've cloned from the upstream git repo, you'll want to bootstrap:
 
-    \$ autoreconf -vi
+    $ autoreconf -vi
 
 To build, follow the standard process:
 
-    \$ ./configure
-    \$ make
-    \$ sudo make install
+    $ ./configure
+    $ make
+    $ sudo make install
 
 If you want to hack on ctap, don't forget to rebuild all of the autotools
 files when you make changes to Makefile.am, configure.ac and friends via
@@ -86,9 +86,9 @@ Linking with libctap
 It couldn't be easier.  Build each test as a standalone executable, and
 link them with LDFLAGS of `-lctap`:
 
-    \$ gcc -c -o t/01-sample.o t/01-sample.c
-    \$ gcc -lctap -o t/01-sample.t t/01-sample.o
-    \$ prove
+    $ gcc -c -o t/01-sample.o t/01-sample.c
+    $ gcc -lctap -o t/01-sample.t t/01-sample.o
+    $ prove
 
 Assertions, Assertions, Assertions
 ----------------------------------
