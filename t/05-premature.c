@@ -19,7 +19,7 @@
 
 #include "ctap.h"
 
-tests {
+TESTS {
 	plan(32);
 	ok(1 == 1, "only one test");
 	exit(0);

@@ -19,7 +19,7 @@
 
 #include "ctap.h"
 
-tests {
+TESTS {
 	plan(1);
-	todo("WIP") { ok(1 != 1, "won't fail the test"); }
+	TODO("WIP") { ok(1 != 1, "won't fail the test"); }
 }

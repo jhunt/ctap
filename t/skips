@@ -7,7 +7,7 @@ sub skip
 {
 	my ($pre, $left) = @_;
 	return if !$left;
-	print qq[${pre}skip("$left") {\n];
+	print qq[${pre}SKIP("$left") {\n];
 	skip("$pre ", $left-1);
 	print qq[${pre}}\n];
 }

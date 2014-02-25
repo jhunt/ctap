@@ -19,42 +19,42 @@
 
 #include "ctap.h"
 
-tests {
+TESTS {
 	no_plan();
 
 	// in vim, do :,!./t/skips 32
-	skip("32") {
-	 skip("31") {
-	  skip("30") {
-	   skip("29") {
-	    skip("28") {
-	     skip("27") {
-	      skip("26") {
-	       skip("25") {
-	        skip("24") {
-	         skip("23") {
-	          skip("22") {
-	           skip("21") {
-	            skip("20") {
-	             skip("19") {
-	              skip("18") {
-	               skip("17") {
-	                skip("16") {
-	                 skip("15") {
-	                  skip("14") {
-	                   skip("13") {
-	                    skip("12") {
-	                     skip("11") {
-	                      skip("10") {
-	                       skip("9") {
-	                        skip("8") {
-	                         skip("7") {
-	                          skip("6") {
-	                           skip("5") {
-	                            skip("4") {
-	                             skip("3") {
-	                              skip("2") {
-	                               skip("1") {
+	SKIP("32") {
+	 SKIP("31") {
+	  SKIP("30") {
+	   SKIP("29") {
+	    SKIP("28") {
+	     SKIP("27") {
+	      SKIP("26") {
+	       SKIP("25") {
+	        SKIP("24") {
+	         SKIP("23") {
+	          SKIP("22") {
+	           SKIP("21") {
+	            SKIP("20") {
+	             SKIP("19") {
+	              SKIP("18") {
+	               SKIP("17") {
+	                SKIP("16") {
+	                 SKIP("15") {
+	                  SKIP("14") {
+	                   SKIP("13") {
+	                    SKIP("12") {
+	                     SKIP("11") {
+	                      SKIP("10") {
+	                       SKIP("9") {
+	                        SKIP("8") {
+	                         SKIP("7") {
+	                          SKIP("6") {
+	                           SKIP("5") {
+	                            SKIP("4") {
+	                             SKIP("3") {
+	                              SKIP("2") {
+	                               SKIP("1") {
 	                               }
 	                              }
 	                             }

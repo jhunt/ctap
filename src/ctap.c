@@ -43,38 +43,34 @@ static int eval_test_run(void)
 	return CTAP.fail ? 1 : 0;
 }
 
-int ctapX() { return CTAP.x = 0; }
-int ctapY() { return CTAP.x < 1; }
-int ctapZ() { return CTAP.x = 1; }
-
-void ctap_diag(FILE *io, const char *msg, ...)
+static char* _vstr(const char *fmt, va_list ap1)
 {
-	va_list ap;
-	va_start(ap, msg);
+	char *msg;
+	va_list ap2;
+	va_copy(ap2, ap1);
 
-	fprintf(io, "# ");
-	vfprintf(io, msg, ap);
-	fprintf(io, "\n");
+	if (!fmt) return NULL;
+	size_t len = snprintf(msg, 0, fmt, ap2);
 
-	va_end(ap);
+	msg = malloc((len + 1) * sizeof(char));
+	if (!msg) {
+		perror("malloc failed");
+		exit(1);
+	}
+	vsprintf(msg, fmt, ap1);
+	va_end(ap1);
+	return msg;
 }
 
-void ctap_bail(const char *msg)
-{
-	ctap_diag(stderr, "bailing out: %s", msg);
-	CTAP.evaled = 1;
-	exit(1);
-}
-
-int ctap_assert(int ok, const char *msg, int autodiag, const char *file, unsigned long line)
+static int _assert(int ok, int autodiag, const char *file, unsigned long line, char *msg)
 {
 	CTAP.tests++;
 	switch (CTAP.stack[CTAP.i].type) {
 	case CTAP_SKIP:
 		fprintf(stdout, "ok %i # skip %s\n", CTAP.tests,
 				CTAP.stack[CTAP.i].msg);
+		free(msg);
 		return 0;
-		break;
 
 	case CTAP_TODO:
 		fprintf(stdout, "%sok %i%s%s # TODO %s\n",
@@ -85,8 +81,8 @@ int ctap_assert(int ok, const char *msg, int autodiag, const char *file, unsigne
 			ctap_diag(stdout, "  Failed (TODO) test '%s'", msg);
 			if (file) ctap_diag(stdout, "  at %s line %d.", file, line);
 		}
+		free(msg);
 		return 0;
-		break;
 
 	case CTAP_NORM:
 	default:
@@ -98,20 +94,38 @@ int ctap_assert(int ok, const char *msg, int autodiag, const char *file, unsigne
 			ctap_diag(stderr, "  Failed test '%s'", msg);
 			if (file) ctap_diag(stderr, "  at %s line %d.", file, line);
 		}
+		free(msg);
 		break;
 	}
 
 	return ok;
 }
 
-void ctap_pop(void)
+/*******************************************************************/
+
+int ctapX() { return CTAP.x = 0; }
+int ctapY() { return CTAP.x < 1; }
+int ctapZ() { return CTAP.x = 1; }
+
+int ctap_diag(FILE *io, const char *msg, ...)
 {
-	if (CTAP.i > 0) {
-		free(CTAP.stack[CTAP.i].msg);
-		CTAP.stack[CTAP.i].type = CTAP_NORM;
-		CTAP.stack[CTAP.i].msg  = NULL;
-		CTAP.i--;
-	}
+	va_list ap;
+	va_start(ap, msg);
+
+	fprintf(io, "# ");
+	vfprintf(io, msg, ap);
+	fprintf(io, "\n");
+
+	va_end(ap);
+
+	return 0;
+}
+
+void ctap_bail(const char *msg, ...)
+{
+	ctap_diag(stderr, "bailing out: %s", msg);
+	CTAP.evaled = 1;
+	exit(1);
 }
 
 void ctap_push(int type, const char *msg)
@@ -163,70 +177,123 @@ void done_testing(void)
 	exit(eval_test_run());
 }
 
-void ctap_eq_u64(uint64_t x, uint64_t y, const char *msg, const char *file, unsigned long line)
+#define vmsg(fmt,x) va_list ap; va_start(ap,fmt); char *x = _vstr(fmt, ap); va_end(ap)
+
+int ctap_assert(int ok, int autodiag, const char *file, unsigned long line, const char *fmt, ...)
 {
-	if (!ctap_assert(x == y, msg, 1, file, line)) {
+	vmsg(fmt, msg);
+	return _assert(ok, autodiag, file, line, msg);
+}
+
+void ctap_cmp_ok(int a, const char *op, int b, const char *file, unsigned long line, const char *fmt, ...)
+{
+	int k = strcmp(op, "||") == 0 ? (a || b)
+	      : strcmp(op, "&&") == 0 ? (a && b)
+	      : strcmp(op, "|")  == 0 ? (a |  b)
+	      : strcmp(op, "^")  == 0 ? (a ^  b)
+	      : strcmp(op, "&")  == 0 ? (a &  b)
+	      : strcmp(op, "==") == 0 ? (a == b)
+	      : strcmp(op, "!=") == 0 ? (a != b)
+	      : strcmp(op, "<")  == 0 ? (a <  b)
+	      : strcmp(op, "<=") == 0 ? (a <= b)
+	      : strcmp(op, ">")  == 0 ? (a >  b)
+	      : strcmp(op, ">=") == 0 ? (a >= b)
+	      : strcmp(op, "<<") == 0 ? (a << b)
+	      : strcmp(op, ">>") == 0 ? (a >> b)
+	      : strcmp(op, "+")  == 0 ? (a +  b)
+	      : strcmp(op, "-")  == 0 ? (a -  b)
+	      : strcmp(op, "/")  == 0 ? (a /  b)
+	      : strcmp(op, "%")  == 0 ? (a %  b)
+	      : diag("unknown operator: '%s'", op);
+
+	vmsg(fmt, msg);
+	if (!_assert(k, 0, file, line, msg)) {
+		diag("   %d %s %d failed", a, op, b);
+	}
+}
+
+void ctap_pop(void)
+{
+	if (CTAP.i > 0) {
+		free(CTAP.stack[CTAP.i].msg);
+		CTAP.stack[CTAP.i].type = CTAP_NORM;
+		CTAP.stack[CTAP.i].msg  = NULL;
+		CTAP.i--;
+	}
+}
+
+void ctap_eq_u64(uint64_t x, uint64_t y, const char *file, unsigned long line, const char *fmt, ...)
+{
+	vmsg(fmt, msg);
+	if (!_assert(x == y, 1, file, line, msg)) {
 		ctap_diag(stderr, "         got: %llu (%x)", x, x);
 		ctap_diag(stderr, "    expected: %llu (%x)", y, y);
 	}
 }
-void ctap_ne_u64(uint64_t x, uint64_t y, const char *msg, const char *file, unsigned long line)
+void ctap_ne_u64(uint64_t x, uint64_t y, const char *file, unsigned long line, const char *fmt, ...)
 {
-	if (!ctap_assert(x != y, msg, 1, file, line)) {
+	vmsg(fmt, msg);
+	if (!_assert(x != y, 1, file, line, msg)) {
 		ctap_diag(stderr, "         got: %llu (%x)", x, x);
 		ctap_diag(stderr, "    expected: <anything else>");
 	}
 }
-void ctap_eq_i64(int64_t x, int64_t y, const char *msg, const char *file, unsigned long line)
+void ctap_eq_i64(int64_t x, int64_t y, const char *file, unsigned long line, const char *fmt, ...)
 {
-	if (!ctap_assert(x == y, msg, 1, file, line)) {
+	vmsg(fmt, msg);
+	if (!_assert(x == y, 1, file, line, msg)) {
 		ctap_diag(stderr, "         got: %lli (%x)", x, x);
 		ctap_diag(stderr, "    expected: %lli (%x)", y, y);
 	}
 }
-void ctap_ne_i64(int64_t x, int64_t y, const char *msg, const char *file, unsigned long line)
+void ctap_ne_i64(int64_t x, int64_t y, const char *file, unsigned long line, const char *fmt, ...)
 {
-	if (!ctap_assert(x != y, msg, 1, file, line)) {
+	vmsg(fmt, msg);
+	if (!_assert(x != y, 1, file, line, msg)) {
 		ctap_diag(stderr, "         got: %lli (%x)", x, x);
 		ctap_diag(stderr, "    expected: <anything else>");
 	}
 }
 
-void ctap_eq_ptr(const void *x, const void *y, const char *msg, const char *file, unsigned long line)
+void ctap_eq_ptr(const void *x, const void *y, const char *file, unsigned long line, const char *fmt, ...)
 {
-	if (!ctap_assert(x == y, msg, 1, file, line)) {
+	vmsg(fmt, msg);
+	if (!_assert(x == y, 1, file, line, msg)) {
 		ctap_diag(stderr, "         got: %p", x);
 		ctap_diag(stderr, "    expected: %p", y);
 	}
 }
-void ctap_ne_ptr(const void *x, const void *y, const char *msg, const char *file, unsigned long line)
+void ctap_ne_ptr(const void *x, const void *y, const char *file, unsigned long line, const char *fmt, ...)
 {
-	if (!ctap_assert(x != y, msg, 1, file, line)) {
+	vmsg(fmt, msg);
+	if (!_assert(x != y, 1, file, line, msg)) {
 		ctap_diag(stderr, "         got: %p", x);
 		ctap_diag(stderr, "    expected: <anything else>", y);
 	}
 }
 
-void ctap_eq_string(const char *x, const char *y, const char *msg, const char *file, unsigned long line)
+void ctap_eq_string(const char *x, const char *y, const char *file, unsigned long line, const char *fmt, ...)
 {
+	vmsg(fmt, msg);
 	if (!x && !y) {
-		ctap_assert(0, msg, 0, file, line);
+		_assert(0, 0, file, line, msg);
 		return;
 	}
 
 	if (x == y) {
-		ctap_assert(1, msg, 0, file, line);
+		_assert(1, 0, file, line, msg);
 		return;
 	}
 
-	if (!ctap_assert(x && y && strcmp(x, y) == 0, msg, 1, file, line)) {
+	if (!_assert(x && y && strcmp(x, y) == 0, 1, file, line, msg)) {
 		ctap_diag(stderr, "         got: '%s'", x);
 		ctap_diag(stderr, "    expected: '%s'", y);
 	}
 }
-void ctap_ne_string(const char *x, const char *y, const char *msg, const char *file, unsigned long line)
+void ctap_ne_string(const char *x, const char *y, const char *file, unsigned long line, const char *fmt, ...)
 {
-	if (!ctap_assert(!(x && y && strcmp(x, y) == 0), msg, 1, file, line)) {
+	vmsg(fmt, msg);
+	if (!_assert(!(x && y && strcmp(x, y) == 0), 1, file, line, msg)) {
 		ctap_diag(stderr, "         got: '%s'", x);
 		ctap_diag(stderr, "    expected: <anything else>");
 	}
@@ -237,4 +304,4 @@ int main(int argc, char **argv)
 	no_plan();
 	ctap_tests();
 	done_testing();
-}
+} // LCOV_EXCL_LINE

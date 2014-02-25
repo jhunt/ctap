@@ -20,7 +20,14 @@
 #include "ctap.h"
 
 TESTS {
-	plan(1);
-	BAIL_OUT("bailing early");
-	ok(1 == 1, "1 == 1"); // LCOV_EXCL_LINE
-} // LCOV_EXCL_LINE
+	no_plan();
+
+	pass("A - %d %d %d...", 1, 2, 3);
+	fail("B - %d %d %d...", 1, 2, 3);
+
+	ok(1, "C - %d %d %d...", 1, 2, 3);
+	is("test", "test", "D - %d %d %d...", 1, 2, 3);
+	isnt("test", "test", "E - %d %d %d...", 1, 2, 3);
+
+	done_testing();
+}

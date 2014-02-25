@@ -19,7 +19,7 @@
 
 #include "ctap.h"
 
-tests {
+TESTS {
 	no_plan();
 
 	subtest {
@@ -27,12 +27,12 @@ tests {
 		const char *s2 = "A second string";
 		const char *s3 = "Hello, Testing!";
 
-		is_string(s1,   s2,   "s1 == s2");
-		is_string(s1,   NULL, "s1 == NULL");
-		is_string(NULL, s3,   "NULL == s3");
-		is_string(NULL, NULL, "null strings are not equiv.");
+		is(s1,   s2,   "s1 == s2");
+		is(s1,   NULL, "s1 == NULL");
+		is(NULL, s3,   "NULL == s3");
+		is(NULL, NULL, "null strings are not equiv.");
 
-		isnt_string(s1,   s3,   "s1 != s3");
+		isnt(s1,   s3,   "s1 != s3");
 	}
 
 	subtest {
@@ -48,6 +48,24 @@ tests {
 
 		is_uint(43, 42, "43U ==  42U");
 		isnt_uint(42, 42, "42U != 42U");
+	}
+
+	subtest {
+		cmp_ok(23, "<",  20, "cmp_ok - 23 <  20");
+		cmp_ok(20, ">",  23, "cmp_ok - 20 >  23");
+		cmp_ok(19, "!=", 19, "cmp_ok - 19 != 19");
+		cmp_ok(20, "==", 23, "cmp_ok - 20 == 23");
+		cmp_ok(0,  "||", 0,  "cmp_ok - 0  || 0");
+		cmp_ok(0,  "&&", 0,  "cmp_ok - 0  && 0");
+		cmp_ok(0,  "|",  0,  "cmp_ok - 0  |  0");
+		cmp_ok(16, "^",  16, "cmp_ok - 16 ^  16");
+		cmp_ok(16, "&",  8,  "cmp_ok - 16 &  8");
+		cmp_ok(1,  ">>", 2,  "cmp_ok - 1  >> 2");
+		cmp_ok(0,  "<<", 3,  "cmp_ok - 0  << 3");
+		cmp_ok(-4, "+",  4,  "cmp_ok - -4 +  4");
+		cmp_ok(8,  "-",  8,  "cmp_ok - 8  -  8");
+		cmp_ok(0,  "/",  4,  "cmp_ok - 0  /  4");
+		cmp_ok(4,  "%",  2,  "cmp_ok - 4  %  2");
 	}
 
 	subtest {

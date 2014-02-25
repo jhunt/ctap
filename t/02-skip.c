@@ -19,7 +19,7 @@
 
 #include "ctap.h"
 
-tests {
+TESTS {
 	plan(1);
-	skip("skip-me!") { ok(1 != 1, "won't fail the test"); }
+	SKIP("skip-me!") { ok(1 != 1, "won't fail the test"); }
 }

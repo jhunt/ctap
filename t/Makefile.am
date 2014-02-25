@@ -1,8 +1,8 @@
 AM_CPPFLAGS = -I$(srcdir)/../src
 LDADD = $(top_builddir)/src/libctap.la
 
-TESTS = 00-asserts.t 01-fail.t 02-skip.t 03-todo.t 04-bail.t 05-premature.t 06-output.t 07-stack.t
-check_PROGRAMS = 00-asserts.t 01-fail 02-skip.t 03-todo.t 04-bail 05-premature 06-output 07-stack
+TESTS = 00-asserts.t 01-fail.t 02-skip.t 03-todo.t 04-bail.t 05-premature.t 06-output.t 07-stack.t 08-printf.t
+check_PROGRAMS = 00-asserts.t 01-fail 02-skip.t 03-todo.t 04-bail 05-premature 06-output 07-stack 08-printf
 00_asserts_t_SOURCES = 00-asserts.c   ../src/ctap.h
 01_fail_SOURCES      = 01-fail.c      ../src/ctap.h
 02_skip_t_SOURCES    = 02-skip.c      ../src/ctap.h
@@ -11,6 +11,7 @@ check_PROGRAMS = 00-asserts.t 01-fail 02-skip.t 03-todo.t 04-bail 05-premature 0
 05_premature_SOURCES = 05-premature.c ../src/ctap.h
 06_output_SOURCES    = 06-output.c    ../src/ctap.h
 07_stack_SOURCES     = 07-stack.c     ../src/ctap.h
+08_printf_SOURCES    = 08-printf.c    ../src/ctap.h
 
 ###########################################
 
