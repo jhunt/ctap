@@ -8,7 +8,7 @@ assertions, *skip/todo* blocks and dynamic evaluation.
 
 **ctap** stays out of your way, letting you focus on writing tests:
 
-    #include &lt;ctap.h&gt;
+    #include <ctap.h>
     tests {
         ok(1 == 1, "1 does in fact equal 1");
     }
@@ -40,7 +40,7 @@ output:
 Here's a more complicated example, using some fancier and more well-to-do
 assertions like `is_string` and `isnt_null`:
 
-    #include &lt;ctap.h&gt;
+    #include <ctap.h>
     tests {
         char *s = "a string";
 
