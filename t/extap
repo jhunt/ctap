@@ -4,15 +4,15 @@ FAIL=0
 RC=$1;   shift;
 TEST=$1; shift;
 
-$@ > expect/$TEST.got 2>&1
+$@ > $TEST.got 2>&1
 if [[ $? == $RC ]]; then
 	echo "ok - exit code $? == $RC"
 else
 	echo "not ok - exit code $? != $RC"
 	FAIL=1
 fi
-GOT_SHA1=`cat expect/$TEST.got | sha1sum`
-EXP_SHA1=`cat expect/$TEST     | sha1sum`
+GOT_SHA1=`cat $TEST.got | sha1sum`
+EXP_SHA1=`cat $TEST     | sha1sum`
 
 if [[ "$GOT_SHA1" == "$EXP_SHA1" ]]; then
 	echo "ok - output as expected"
@@ -20,10 +20,10 @@ else
 	echo "not ok - output not as expected"
 	echo "#      got sha1: $GOT_SHA1"
 	echo "# expected sha1: $EXP_SHA1"
-	diff -u expect/$TEST expect/$TEST.got | sed -e 's/^/# /'
+	diff -u $TEST $TEST.got | sed -e 's/^/# /'
 	echo "#   ran command: \`$@'"
 fi
 
 echo "1..2"
-rm -f expect/$TEST.got
+rm -f $TEST.got
 exit $FAIL;
