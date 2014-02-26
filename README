@@ -90,6 +90,11 @@ link them with LDFLAGS of `-lctap`:
     $ gcc -lctap -o t/01-sample.t t/01-sample.o
     $ prove
 
+Pre-Built Packages
+------------------
+
+Debian/Ubuntu packages are provided here: [http://jameshunt.us/packages.html](http://jameshunt.us/packages.html)
+
 Assertions, Assertions, Assertions
 ----------------------------------
 
