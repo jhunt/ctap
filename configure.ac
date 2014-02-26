@@ -1,4 +1,4 @@
-AC_INIT([ctap], [1.0.1], [bugs@niftylogic.com])
+AC_INIT([libctap], [1.0.1], [bugs@niftylogic.com])
 AC_PREREQ([2.65])
 AC_CONFIG_SRCDIR([src/ctap.h])
 AC_CONFIG_AUX_DIR([build/autotools])
