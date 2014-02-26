@@ -1,2 +1,2 @@
 #!/bin/sh
-./extap 1 06-output ./06-output
+./$srcdir/extap 1 $srcdir/expect/06-output ./06-output

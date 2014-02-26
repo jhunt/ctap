@@ -1,0 +1,5 @@
+libctap (1.0.1-1) unstable; urgency=low
+
+  * Initial Debian Package
+
+ -- James Hunt <james@jameshunt.us>  Tue, 25 Feb 2014 21:03:00 -0500

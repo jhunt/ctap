@@ -1,2 +1,2 @@
 #!/bin/sh
-./extap 1 08-printf ./08-printf
+./$srcdir/extap 1 $srcdir/expect/08-printf ./08-printf

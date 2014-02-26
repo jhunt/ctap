@@ -1,2 +1,2 @@
 #!/bin/sh
-./untap ./04-bail
+./$srcdir/untap ./04-bail

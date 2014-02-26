@@ -13,6 +13,8 @@ check_PROGRAMS = 00-asserts.t 01-fail 02-skip.t 03-todo.t 04-bail 05-premature 0
 07_stack_SOURCES     = 07-stack.c     ../src/ctap.h
 08_printf_SOURCES    = 08-printf.c    ../src/ctap.h
 
+EXTRA_DIST = extap untap expect skips 01-fail.t 04-bail.t 05-premature.t 06-output.t 07-stack.t 08-printf.t
+
 ###########################################
 
 if GCOV_ENABLED

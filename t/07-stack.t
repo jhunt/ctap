@@ -1,2 +1,2 @@
 #!/bin/sh
-./extap 1 07-stack ./07-stack
+./$srcdir/extap 1 $srcdir/expect/07-stack ./07-stack

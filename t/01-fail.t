@@ -1,2 +1,2 @@
 #!/bin/sh
-./untap ./01-fail
+./$srcdir/untap ./01-fail

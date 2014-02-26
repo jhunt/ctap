@@ -1,2 +1,2 @@
 #!/bin/sh
-./extap 1 05-premature ./05-premature
+./$srcdir/extap 1 $srcdir/expect/05-premature ./05-premature
