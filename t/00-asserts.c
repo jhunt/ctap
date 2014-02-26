@@ -62,7 +62,7 @@ TESTS {
 		cmp_ok(-4, "+",  8,  "cmp_ok - -4 +  8");
 		cmp_ok(8,  "-",  4,  "cmp_ok - 8  -  4");
 		cmp_ok(8,  "/",  4,  "cmp_ok - 8  /  4");
-		cmp_ok(3,  "%",  2,  "cmp_ok - 3  %  2");
+		cmp_ok(3,  "%",  2,  "cmp_ok - 3  %%  2");
 	}
 
 	subtest {

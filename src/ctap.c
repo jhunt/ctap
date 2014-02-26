@@ -50,14 +50,14 @@ static char* _vstr(const char *fmt, va_list ap1)
 	va_copy(ap2, ap1);
 
 	if (!fmt) return NULL;
-	size_t len = snprintf(msg, 0, fmt, ap2);
+	size_t len = snprintf(msg, 0, fmt, ap2) + 1;
 
-	msg = malloc((len + 1) * sizeof(char));
+	msg = malloc((len +  1) * sizeof(char));
 	if (!msg) {
 		perror("malloc failed");
 		exit(1);
 	}
-	vsprintf(msg, fmt, ap1);
+	vsnprintf(msg, len, fmt, ap1);
 	va_end(ap1);
 	return msg;
 }
