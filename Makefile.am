@@ -6,5 +6,7 @@ ACLOCAL_AMFLAGS=-I build/autotools
 test: check
 docs:
 	cd src; make -f Makefile $@
+version:
+	@echo $(VERSION)
 
-.PHONY: docs test
+.PHONY: version docs test
