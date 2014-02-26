@@ -11,4 +11,4 @@ version:
 distfile:
 	@echo $(PACKAGE)-$(VERSION).tar.gz
 
-.PHONY: version docs test
+.PHONY: distfile version docs test
