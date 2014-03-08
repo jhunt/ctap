@@ -5,6 +5,10 @@ AC_CONFIG_AUX_DIR([build/autotools])
 AC_CONFIG_MACRO_DIR([build/autotools])
 
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+
+dnl AM_PROG_AR is needed for some linker stuff
+AM_PROG_AR
+
 LT_INIT
 
 AX_TEST_COVERAGE
