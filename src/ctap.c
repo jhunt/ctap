@@ -103,9 +103,9 @@ static int _assert(int ok, int autodiag, const char *file, unsigned long line, c
 
 /*******************************************************************/
 
-int ctapX() { return CTAP.x = 0; }
-int ctapY() { return CTAP.x < 1; }
-int ctapZ() { return CTAP.x = 1; }
+int ctapX(void) { return CTAP.x = 0; }
+int ctapY(void) { return CTAP.x < 1; }
+int ctapZ(void) { return CTAP.x = 1; }
 
 int ctap_diag(FILE *io, const char *msg, ...)
 {

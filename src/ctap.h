@@ -24,6 +24,10 @@ void plan(int n);
 void no_plan(void);
 void done_testing(void);
 
+int ctapX(void);
+int ctapY(void);
+int ctapZ(void);
+
 #define TESTS   int ctap_tests(void)
 #define subtest for (ctapX(); ctapY(); ctapZ())
 
