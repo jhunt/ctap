@@ -7,6 +7,15 @@
 .libs
 callgrind.out.*
 
+# debian packaging files
+*.substvars
+*.debhelper
+*.debhelper.log
+debian/files
+debian/libctap-dev/
+debian/libctap/
+debian/tmp/
+
 # built objects
 *.o
 *.gc??
@@ -14,6 +23,17 @@ callgrind.out.*
 *.la
 docs
 coverage
+#
+t/00-asserts.t
+t/01-fail
+t/02-skip.t
+t/03-todo.t
+t/04-bail
+t/05-premature
+t/06-output
+t/07-stack
+t/08-printf
+t/09-fork
 
 # autotools
 *.in
@@ -34,17 +54,3 @@ build/autotools/*.m4
 !build/autotools/cdoc.m4
 !build/autotools/gcov.m4
 
-########################################
-libctest.so*
-test/run
-
-t/00-asserts.t
-t/01-fail
-t/02-skip.t
-t/03-todo.t
-t/04-bail
-t/05-premature
-t/06-output
-t/07-stack
-t/08-printf
-t/09-fork
