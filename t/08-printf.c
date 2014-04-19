@@ -29,5 +29,7 @@ TESTS {
 	is("test", "test", "D - %d %d %d...", 1, 2, 3);
 	isnt("test", "test", "E - %d %d %d...", 1, 2, 3);
 
+	printf("THIS SHOULD NOT SHOW UP IN THE OUTPUT AT ALL\n");
+
 	done_testing();
 }
