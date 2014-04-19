@@ -22,6 +22,7 @@ static struct {
 	int x;                      /* used for for loop trickery */
 	int evaled;                 /* is this a controlled exit? */
 
+	pid_t pid;                  /* pid who started the test */
 	FILE *stdout;               /* private stdout channel */
 
 	struct {
@@ -152,6 +153,7 @@ void ctap_push(int type, const char *msg)
 void ctap_atexit(void)
 {
 	if (CTAP.evaled != 0) return;
+	if (CTAP.pid != getpid()) return;
 	_exit(eval_test_run());
 }
 
@@ -161,6 +163,7 @@ void plan(int n)
 	setvbuf(CTAP.stdout, NULL, _IONBF, 0);
 	setvbuf(stderr, NULL, _IONBF, 0);
 
+	CTAP.pid = getpid();
 	CTAP.fail = 0;
 	CTAP.tests = 0;
 	CTAP.expect = n;

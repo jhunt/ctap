@@ -47,3 +47,4 @@ t/05-premature
 t/06-output
 t/07-stack
 t/08-printf
+t/09-fork

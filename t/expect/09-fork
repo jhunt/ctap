@@ -1,0 +1,4 @@
+ok 1 - in parent
+ok 2 - child process exited normally
+ok 3 - child process exit code
+1..3
