@@ -18,7 +18,6 @@ int  ctap_assert(int ok, int autodiag, const char *file, unsigned long line, con
 void ctap_pop(void);
 void ctap_push(int type, const char *msg);
 void ctap_bailed_early(void);
-int  ctap_test(int,char**);
 
 void plan(int n);
 void no_plan(void);
@@ -28,7 +27,7 @@ int ctapX(void);
 int ctapY(void);
 int ctapZ(void);
 
-#define TESTS   int ctap_tests(void)
+#define TESTS   void ctap_tests(void)
 #define subtest for (ctapX(); ctapY(); ctapZ())
 
 /*************************************************************************/
