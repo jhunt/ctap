@@ -5,6 +5,7 @@ Section: devel
 Priority: optional
 Homepage: http://github.com/filefrog/ctap
 Build-Depends: debhelper (>= 8.0.0),
+               libtool
 
 Package: libctap
 Architecture: any

@@ -4,6 +4,7 @@ ACLOCAL_AMFLAGS=-I build/autotools
 
 
 test: check
+coverage:
 docs:
 	cd src; make -f Makefile $@
 version:
