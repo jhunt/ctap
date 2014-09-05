@@ -9,7 +9,7 @@ assertions, *skip/todo* blocks and dynamic evaluation.
 **ctap** stays out of your way, letting you focus on writing tests:
 
     #include <ctap.h>
-    tests {
+    TESTS {
         ok(1 == 1, "1 does in fact equal 1");
     }
 
@@ -41,7 +41,7 @@ Here's a more complicated example, using some fancier and more well-to-do
 assertions like `is_string` and `isnt_null`:
 
     #include <ctap.h>
-    tests {
+    TESTS {
         char *s = "a string";
 
         is_null(NULL, "NULL is a null pointer");
