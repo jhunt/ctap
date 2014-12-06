@@ -52,12 +52,13 @@ static int eval_test_run(void)
 
 static char* _vstr(const char *fmt, va_list ap1)
 {
+	if (!fmt) return NULL;
+
 	char *msg;
 	va_list ap2;
 	va_copy(ap2, ap1);
-
-	if (!fmt) return NULL;
 	size_t len = vsnprintf(NULL, 0, fmt, ap2) + 1;
+	va_end(ap2);
 
 	msg = malloc((len +  1) * sizeof(char));
 	if (!msg) {
@@ -65,7 +66,6 @@ static char* _vstr(const char *fmt, va_list ap1)
 		exit(1);
 	}
 	vsnprintf(msg, len, fmt, ap1);
-	va_end(ap1);
 	return msg;
 }
 
