@@ -80,5 +80,12 @@ TESTS {
 		isnt_ptr(s1, s2,   "s1 != s2 (diff mem / same string)");
 	}
 
+	subtest { /* printf-semantics */
+		const char *c = "COMMAND";
+		isnt_null(c, "got '%s'", c);
+		isnt_null(c, "got '%s'", "COMMAND");
+		isnt_null(c, "got 'COMMAND'");
+	}
+
 	done_testing();
 }
