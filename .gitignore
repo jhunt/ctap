@@ -53,8 +53,7 @@ aclocal.m4
 stamp-h1
 Makefile
 libtool
-build/autotools/*.m4
+build/autotools/*
 !build/autotools/as-compiler-flag.m4
 !build/autotools/cdoc.m4
-!build/autotools/gcov.m4
-
+!build/autotools/coverage.m4
