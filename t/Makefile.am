@@ -15,7 +15,7 @@ check_PROGRAMS = 00-asserts.t 01-fail 02-skip.t 03-todo.t 04-bail 05-premature 0
 09_fork_SOURCES      = 09-fork.c      ../src/ctap.h
 10_notests_SOURCES   = 10-notests.c   ../src/ctap.h
 
-EXTRA_DIST = extap untap expect skips 01-fail.t 04-bail.t 05-premature.t 06-output.t 07-stack.t 08-printf.t 09-fork.t 10-notests.c
+EXTRA_DIST = extap untap expect skips 01-fail.t 04-bail.t 05-premature.t 06-output.t 07-stack.t 08-printf.t 09-fork.t 10-notests.t
 
 ###########################################
 
