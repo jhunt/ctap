@@ -34,6 +34,7 @@ t/06-output
 t/07-stack
 t/08-printf
 t/09-fork
+t/10-notests
 t/*.trs
 t/*.log
 test-suite.log

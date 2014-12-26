@@ -308,7 +308,7 @@ void ctap_ne_string(const char *x, const char *y, const char *file, unsigned lon
 	}
 }
 
-void ctap_tests(void);
+void ctap_tests(void) { ctap_assert(0, 1, "libctap.so", 0, "No tests defined!"); }
 int main(int argc, char **argv)
 {
 	int nul, out;

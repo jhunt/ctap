@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = libctap.la
 libctap_la_SOURCES = ctap.h ctap.c
-libctap_la_LDFLAGS = --version-info o:0:0
+libctap_la_LDFLAGS = --version-info 0:1:0
 
 include_HEADERS = ctap.h
 
