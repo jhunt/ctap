@@ -1,14 +1,25 @@
 #!/bin/sh
 # Run this to generate all the initial makefiles, etc.
 
-set -e
-
 if [ ! -f configure.ac -o ! -f COPYING ]; then
 	echo "Doesn't look like you're in the source directory" >&2
 	exit 1
 fi
 
+command -v libtool >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo >&2 "bootstrap error: libtool not found"
+	exit 1
+fi
+
+command -v autoreconf >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo >&2 "bootstrap error: autoreconf not found"
+	exit 1
+fi
+
 # old autoreconf/aclocal versions fail hard if m4 doesn't exist
 mkdir -p m4
+
 autoreconf --force --install
 echo "Now type './configure ...' and 'make' to compile."
