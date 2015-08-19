@@ -19,6 +19,6 @@ AC_PROG_CC
 AX_PROG_CDOC
 
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile t/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile t/Makefile src/ctap.pc])
 
 AC_OUTPUT

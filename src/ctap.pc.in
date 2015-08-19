@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libctap
+Description: Testing Framework for C
+Version: @VERSION@
+Libs: -L${libdir} -lctap
+Cflags: -I${includedir}

@@ -23,6 +23,7 @@ debian/tmp/
 *.la
 docs
 coverage
+src/ctap.pc
 #
 t/00-asserts.t
 t/01-fail
@@ -41,6 +42,7 @@ test-suite.log
 
 # autotools
 *.in
+!src/ctap.pc.in
 config.h
 config.log
 config.status
