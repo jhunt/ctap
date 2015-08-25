@@ -73,9 +73,6 @@ TESTS {
 		void *p2 = (void*)0xbeef;
 		void *p3 = (void*)0xdead;
 
-		char s1[] = "string";
-		char s2[] = "string";
-
 		is_ptr(p1, p2,   "p1 == p2");
 		is_ptr(p1, NULL, "p1 == NULL");
 		is_pointer(p1, p2,   "p1 == p2");

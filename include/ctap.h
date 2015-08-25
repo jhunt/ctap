@@ -27,7 +27,9 @@ int ctapX(void);
 int ctapY(void);
 int ctapZ(void);
 
-#define TESTS   void ctap_tests(void)
+void (*CTAP_TESTS)(void) = NULL;
+#define TESTS extern void (*CTAP_TESTS)(void); void ctap_tests(void); CTAP_TESTS = ctap_tests; void ctap_tests(void)
+//#define TESTS   void ctap_tests(void)
 #define subtest for (ctapX(); ctapY(); ctapZ())
 
 /*************************************************************************/
