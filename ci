@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
+mkdir tmp
+BUILD_PREFIX=$PWD/tmp
+
 CONFIG_OPTS=()
 CONFIG_OPTS+=("CFLAGS=-I${BUILD_PREFIX}/include")
 CONFIG_OPTS+=("CPPFLAGS=-I${BUILD_PREFIX}/include")
@@ -14,4 +17,4 @@ CONFIG_OPTS+=("--prefix=${BUILD_PREFIX}")
 
 make
 make check
-sudo make install
+make install

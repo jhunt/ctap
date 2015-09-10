@@ -5,5 +5,4 @@ language: c
 os:
   - linux
 
-sudo: required
 script: ./ci build
