@@ -97,7 +97,7 @@ t_notests_aux_LDADD   = libctap.la
 
 check_PROGRAMS = $(COMPILED_TESTS) $(AUX_TESTS)
 TESTS = $(COMPILED_TESTS) $(PERL_TESTS)
-EXTRA_DIST = extap untap expect skips $(PERL_TESTS)
+EXTRA_DIST = t/extap t/untap t/expect t/skips $(PERL_TESTS)
 
 ###########################################
 
