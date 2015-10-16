@@ -12,7 +12,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc
-BuildRequires:  libtool
 
 %description
 ctap is an easy way to get Perl-style TAP testing convenience in C. It

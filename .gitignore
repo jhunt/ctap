@@ -48,7 +48,6 @@ aclocal.m4
 stamp-h1
 .dirstamp
 Makefile
-libtool
 build/*
 !build/as-compiler-flag.m4
 !build/cdoc.m4
