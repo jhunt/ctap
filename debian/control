@@ -1,28 +1,15 @@
-Source: libctap
-Standards-Version: 3.9.3
-Maintainer: James Hunt <james@jameshunt.us>
+Source: ctap
+Standards-Version: 3.9.5
+Maintainer: James Hunt <james@niftylogic.com>
 Section: devel
 Priority: optional
 Homepage: http://github.com/filefrog/ctap
-Build-Depends: debhelper (>= 8.0.0),
-               libtool
+Build-Depends: debhelper (>= 8.0.0)
 
-Package: libctap
-Architecture: any
+Package: ctap
+Architecture: all
 Depends: ${misc:Depends}
 Description: Test Anything Protocol for C
  ctap is an easy way to get Perl-style TAP testing convenience in C. It
- ships as a standalone shared library that you can link to your tests, and a
- header file that contains functions and macros for doing things like
- assertions, skip/todo blocks and dynamic evaluation.
-
-Package: libctap-dev
-Architecture: all
-Depends: ${misc:Depends}
-Description: Test Anything Protocol for C - development tools
- ctap is an easy way to get Perl-style TAP testing convenience in C. It
- ships as a standalone shared library that you can link to your tests, and a
- header file that contains functions and macros for doing things like
- assertions, skip/todo blocks and dynamic evaluation.
- .
- This package contains the header files for writing tests with libctap
+ ships as a single header file that contains functions and macros for doing
+ things like assertions, skip/todo blocks and dynamic evaluation.

@@ -1,5 +1,5 @@
-Name:           libctap
-Version:        1.1.6
+Name:           ctap
+Version:        2.0.0
 Release:        1%{?dist}
 Summary:        Test Anything Protocol for C
 
@@ -19,19 +19,6 @@ ctap is an easy way to get Perl-style TAP testing convenience in C. It
 ships as a standalone shared library that you can link to your tests, and a
 header file that contains functions and macros for doing things like
 assertions, skip/todo blocks and dynamic evaluation.
-
-%package devel
-Summary:        Test Anything Protocol for C - Development Files
-Group:          Development/Libraries
-
-%description devel
-ctap is an easy way to get Perl-style TAP testing convenience in C. It
-ships as a standalone shared library that you can link to your tests, and a
-header file that contains functions and macros for doing things like
-assertions, skip/todo blocks and dynamic evaluation.
-
-This package contains the header files for writing tests with libctap
-
 
 %prep
 %setup -q
@@ -53,17 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{_libdir}/libctap.so
-%{_libdir}/libctap.so.0
-%{_libdir}/libctap.so.0.0.0
-
-%files devel
-%defattr(-,root,root,-)
 /usr/include/ctap.h
-%{_libdir}/libctap.a
-%{_libdir}/libctap.la
 
 
 %changelog
-* Tue May 19 2015 James Hunt <james@niftylogic.com> 1.1.6-1
+* Fri Oct 16 2015 James Hunt <james@niftylogiccom> 2.0.0-1
 - Initial RPM package

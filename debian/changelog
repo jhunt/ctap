@@ -1,11 +1,5 @@
-libctap (1.1.4-1) unstable; urgency=low
-
-  * Tweaks
-
- -- James Hunt <james@jameshunt.us>  Fri, 18 Apr 2014 23:06:00 -0500
-
-libctap (1.0.1-1) unstable; urgency=low
+ctap (2.0.0-1) unstable; urgency=low
 
   * Initial Debian Package
 
- -- James Hunt <james@jameshunt.us>  Tue, 25 Feb 2014 21:03:00 -0500
+ -- James Hunt <james@niftylogic.com>  Fri, 16 Oct 2015 08:25:00 -0500
