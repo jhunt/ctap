@@ -1,5 +1,5 @@
-libctap.so - Test Anything Protocol for C
-=========================================
+ctap - Test Anything Protocol for C
+===================================
 
 **ctap** is an easy way to get Perl-style TAP testing convenience in C.  It
 ships as a standalone shared library that you can link to your tests, and a
@@ -63,8 +63,8 @@ And here is the output:
     1..4
     # Looks like you failed 1 test of 4.
 
-Building libctap.so
--------------------
+Building ctap
+-------------
 
 If you've cloned from the upstream git repo, you'll want to bootstrap:
 
@@ -79,21 +79,6 @@ To build, follow the standard process:
 If you want to hack on ctap, don't forget to rebuild all of the autotools
 files when you make changes to Makefile.am, configure.ac and friends via
 `autoreconf`.
-
-Linking with libctap
---------------------
-
-It couldn't be easier.  Build each test as a standalone executable, and
-link them with LDFLAGS of `-lctap`:
-
-    $ gcc -c -o t/01-sample.o t/01-sample.c
-    $ gcc -lctap -o t/01-sample.t t/01-sample.o
-    $ prove
-
-Pre-Built Packages
-------------------
-
-Debian/Ubuntu packages are provided here: [http://jameshunt.us/packages.html](http://jameshunt.us/packages.html)
 
 Assertions, Assertions, Assertions
 ----------------------------------
@@ -192,7 +177,3 @@ macros:
 All tests in a **SKIP** block will still be run, but **ctap** will pretend
 as if they had implicitly succeeded.  In a **TODO** block, test can fail but
 will not count against the test suite as a normal failure would.
-
-**Note:** these macros are themselves experimental, and their interfaces may
-change in future versions of libctap.  Do _not_ rely on them in real test
-suites.

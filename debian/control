@@ -1,6 +1,6 @@
 Source: ctap
 Standards-Version: 3.9.5
-Maintainer: James Hunt <james@niftylogic.com>
+Maintainer: James Hunt <james@jameshunt.us>
 Section: devel
 Priority: optional
 Homepage: http://github.com/filefrog/ctap

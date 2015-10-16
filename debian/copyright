@@ -5,7 +5,7 @@ Source: <http://github.com/filefrog/ctap>
 Files: *
 Copyright: 2014 James Hunt <james@jameshunt.us>
 License: GPL-3
- libctap is published under the GNU Public License v3 without any
+ ctap is published under the GNU Public License v3 without any
  warranty implied or otherwise, with no suitability for any purpose.
  Use this software at your own risk.
  .
@@ -16,7 +16,7 @@ License: GPL-3
 Files: debian/*
 Copyright: 2014 James Hunt <james@jameshunt.us>
 License: GPL-3
- libctap is published under the GNU Public License v3 without any
+ ctap is published under the GNU Public License v3 without any
  warranty implied or otherwise, with no suitability for any purpose.
  Use this software at your own risk.
  .
