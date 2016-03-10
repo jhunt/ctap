@@ -429,4 +429,5 @@ int main(int argc, char **argv)
 	no_plan();
 	ctap_tests();
 	done_testing();
+	return 0;
 } // LCOV_EXCL_LINE
