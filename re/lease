@@ -1,7 +1,6 @@
 #!/bin/bash
 
-PROJECT="CTAP"
-RELNAME="${PROJECT} - Test Anything Protocol for C"
+PROJECT="ctap"
 GITHUB_USER=jhunt
 GITHUB_REPO=ctap
 export GITHUB_USER GITHUB_REPO
@@ -39,7 +38,7 @@ if [[ -z $GITHUB_TOKEN ]]; then
 fi
 
 VERSION=$1 ; shift
-github-release release --tag v${VERSION} --name "${RELNAME}" --description "$(cat re/notes)"
+github-release release --tag v${VERSION} --name "${PROJECT} v${VERSION}" --description "$(cat re/notes)"
 
 for file in "$@"; do
   github-release upload --tag v${VERSION} --name "$(basename $file)" --file $file
