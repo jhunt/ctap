@@ -1,4 +1,6 @@
 #!/bin/bash
+ROOT=$(cd $(dirname $BASH_SOURCE[0])/.. ; pwd)
+cd ${ROOT}
 
 PROJECT="ctap"
 GITHUB_USER=jhunt
@@ -13,11 +15,6 @@ if [[ -z $(command -v github-release 2>/dev/null) ]]; then
   echo >&2
   echo >&2 "  go get github.com/aktau/github-release"
   echo >&2
-  exit 1
-fi
-
-if [[ -z $1 || -z $2 ]]; then
-  echo >&2 "USAGE: $0 x.y.z [files ...]"
   exit 1
 fi
 
@@ -37,9 +34,17 @@ if [[ -z $GITHUB_TOKEN ]]; then
   exit 1
 fi
 
-VERSION=$1 ; shift
-github-release release --tag v${VERSION} --name "${PROJECT} v${VERSION}" --description "$(cat re/notes)"
+VERSION=$(./version.sh)
+DISTARCHIVE=${GITHUB_REPO}-${VERSION}.tar.gz
+echo "BUILDING ${PROJECT} v${VERSION} (${DISTARCHIVE})"
+echo
 
-for file in "$@"; do
-  github-release upload --tag v${VERSION} --name "$(basename $file)" --file $file
-done
+set -e
+./bootstrap
+./configure
+make distcheck
+ls -l ${DISTARCHVE}
+echo
+
+github-release release --tag v${VERSION} --name "${PROJECT} v${VERSION}" --description "$(cat re/notes)"
+github-release upload --tag v${VERSION} --name "${DISTARCHIVE}" --file ${DISTARCHIVE}
