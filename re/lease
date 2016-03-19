@@ -1,0 +1,46 @@
+#!/bin/bash
+
+PROJECT="CTAP"
+RELNAME="${PROJECT} - Test Anything Protocol for C"
+GITHUB_USER=jhunt
+GITHUB_REPO=ctap
+export GITHUB_USER GITHUB_REPO
+
+if [[ -z $(command -v github-release 2>/dev/null) ]]; then
+  echo >&2 "You need the \`github-release\` utility to do releases for ${PROJECT}"
+  echo >&2 "You can get it here: https://github.com/aktau/github-release"
+  echo >&2
+  echo >&2 "Or, via \`go get\`:"
+  echo >&2
+  echo >&2 "  go get github.com/aktau/github-release"
+  echo >&2
+  exit 1
+fi
+
+if [[ -z $1 || -z $2 ]]; then
+  echo >&2 "USAGE: $0 x.y.z [files ...]"
+  exit 1
+fi
+
+if [[ ! -s re/notes ]]; then
+  echo >&2 "No re/notes found."
+  echo >&2
+  echo >&2 "Describe the changes in this release in a file named 're/notes'"
+  echo >&2 "in the root of the repository."
+  exit 1
+fi
+
+if [[ -z $GITHUB_TOKEN ]]; then
+  echo >&2 "No \$GITHUB_TOKEN is set."
+  echo >&2
+  echo >&2 "You must create a Github Personal Access Token and set it in your"
+  echo >&2 "environment for \`github-release\` to use."
+  exit 1
+fi
+
+VERSION=$1 ; shift
+github-release release --tag v${VERSION} --name "${RELNAME}" --description "$(cat re/notes)"
+
+for file in "$@"; do
+  github-release upload --tag v${VERSION} --name "$(basename $file)" --file $file
+done
