@@ -1,6 +1,8 @@
 ctap - Test Anything Protocol for C
 ===================================
 
+[![Travis](https://img.shields.io/travis/jhunt/ctap.svg)](https://travis-ci.org/jhunt/ctap)
+
 **ctap** is an easy way to get Perl-style TAP testing convenience in C.  It
 ships as a standalone shared library that you can link to your tests, and a
 header file that contains functions and macros for doing things like
