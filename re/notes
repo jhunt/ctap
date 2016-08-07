@@ -1,1 +1,8 @@
-Initial Release
+# Improvements
+
+- Relaxed autotools requirements to allow 2.59 (CentOS / EL 5 mostly)
+- Exercised the Release Process
+
+# Miscellany
+
+- Added Travis badge to README.md for tracking tests of the test framework...

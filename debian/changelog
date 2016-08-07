@@ -1,5 +1,11 @@
+ctap (2.0.1-1) unstable; urgency=low
+
+  * Match 2.0.1 upstream release
+
+ -- James Hunt <james@niftylogic.com>  Sun,  7 Aug 2016 07:19:00 -0400
+
 ctap (2.0.0-1) unstable; urgency=low
 
   * Initial Debian Package
 
- -- James Hunt <james@jameshunt.us>  Fri, 16 Oct 2015 08:25:00 -0500
+ -- James Hunt <james@niftylogic.com>  Fri, 16 Oct 2015 08:25:00 -0500

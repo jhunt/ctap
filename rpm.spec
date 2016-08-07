@@ -1,5 +1,5 @@
 Name:           ctap
-Version:        2.0.0
+Version:        2.0.1
 Release:        1%{?dist}
 Summary:        Test Anything Protocol for C
 
@@ -43,5 +43,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Oct 16 2015 James Hunt <james@niftylogiccom> 2.0.0-1
+* Sun Aug  7 2016 James Hunt <james@niftylogic.com> 2.0.1-1
+- Bump to upstream 2.0.1 release.
+
+* Fri Oct 16 2015 James Hunt <james@niftylogic.com> 2.0.0-1
 - Initial RPM package
