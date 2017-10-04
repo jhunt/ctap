@@ -1,1 +1,0 @@
-extend-diff-ignore = '^(t|coverage|build/autotools/.*|.*.tar.gz|README.md|bootstrap|rpm.spec)'
