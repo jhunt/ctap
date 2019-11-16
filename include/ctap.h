@@ -122,7 +122,7 @@ static struct {
 	int evaled;                 /* is this a controlled exit? */
 
 	pid_t pid;                  /* pid who started the test */
-	FILE *priv_stdout;          /* private stdout channel */
+	FILE *priv_stdout;               /* private stdout channel */
 
 	struct {
 		int   type;
@@ -415,16 +415,21 @@ int main(int argc, char **argv)
 	if (out < 0)
 		ctap_bail("failed to dup stdout: %s", strerror(errno));
 
-	nul = open("/dev/null", O_WRONLY);
+#ifdef _WIN32
+	char nullpath[] = "NUL";
+#else
+	char nullpath[] = "/dev/null";
+#endif
+	nul = open(nullpath, O_WRONLY);
 	if (nul < 0)
-		ctap_bail("failed to open /dev/null: %s", strerror(errno));
+		ctap_bail("failed to open %s: %s", nullpath, strerror(errno));
 
 	CTAP.priv_stdout = fdopen(out, "w");
 	if (!CTAP.priv_stdout)
 		ctap_bail("failed to fdopen stdout: %s", strerror(errno));
 
 	if (dup2(nul, 1) < 0)
-		ctap_bail("failed to redirect stdout to /dev/null: %s", strerror(errno));
+		ctap_bail("failed to redirect stdout to %s: %s", nullpath, strerror(errno));
 
 	no_plan();
 	ctap_tests();
