@@ -122,7 +122,7 @@ static struct {
 	int evaled;                 /* is this a controlled exit? */
 
 	pid_t pid;                  /* pid who started the test */
-	FILE *priv_stdout;               /* private stdout channel */
+	FILE *priv_stdout;          /* private stdout channel */
 
 	struct {
 		int   type;
