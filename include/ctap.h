@@ -122,7 +122,7 @@ static struct {
 	int evaled;                 /* is this a controlled exit? */
 
 	pid_t pid;                  /* pid who started the test */
-	FILE *stdout;               /* private stdout channel */
+	FILE *priv_stdout;          /* private stdout channel */
 
 	struct {
 		int   type;
@@ -135,12 +135,12 @@ static int _ctap_eval_test_run(void)
 {
 	CTAP.evaled = 1;
 	if (CTAP.expect >= 0 && CTAP.expect != CTAP.tests) {
-		fprintf(CTAP.stdout, "1..%d\n", CTAP.expect);
+		fprintf(CTAP.priv_stdout, "1..%d\n", CTAP.expect);
 		ctap_diag(stderr, "Looks like you planned %i tests but ran %i.",
 				CTAP.expect, CTAP.tests);
 		return 1;
 	} else {
-		fprintf(CTAP.stdout, "1..%d\n", CTAP.tests);
+		fprintf(CTAP.priv_stdout, "1..%d\n", CTAP.tests);
 	}
 	if (CTAP.fail > 0) {
 		ctap_diag(stderr, "Looks like you failed %d test%s of %d.",
@@ -173,19 +173,19 @@ static int _assert(int ok, int autodiag, const char *file, unsigned long line, c
 	CTAP.tests++;
 	switch (CTAP.stack[CTAP.i].type) {
 	case CTAP_SKIP:
-		fprintf(CTAP.stdout, "ok %i # skip %s\n", CTAP.tests,
+		fprintf(CTAP.priv_stdout, "ok %i # skip %s\n", CTAP.tests,
 				CTAP.stack[CTAP.i].msg);
 		free(msg);
 		return 0;
 
 	case CTAP_TODO:
-		fprintf(CTAP.stdout, "%sok %i%s%s # TODO %s\n",
+		fprintf(CTAP.priv_stdout, "%sok %i%s%s # TODO %s\n",
 				(ok ? "" : "not "), CTAP.tests,
 				(msg ? " - " : ""), (msg ? msg   : ""),
 				CTAP.stack[CTAP.i].msg);
 		if (!ok && autodiag) {
-			ctap_diag(CTAP.stdout, "  Failed (TODO) test '%s'", msg);
-			if (file) ctap_diag(CTAP.stdout, "  at %s line %d.", file, line);
+			ctap_diag(CTAP.priv_stdout, "  Failed (TODO) test '%s'", msg);
+			if (file) ctap_diag(CTAP.priv_stdout, "  at %s line %d.", file, line);
 		}
 		free(msg);
 		return 0;
@@ -193,7 +193,7 @@ static int _assert(int ok, int autodiag, const char *file, unsigned long line, c
 	case CTAP_NORM:
 	default:
 		if (!ok) CTAP.fail++;
-		fprintf(CTAP.stdout, "%sok %i%s%s\n",
+		fprintf(CTAP.priv_stdout, "%sok %i%s%s\n",
 				(ok ? "" : "not "), CTAP.tests,
 				(msg ? " - " : ""), (msg ? msg : ""));
 		if (!ok && autodiag) {
@@ -259,7 +259,7 @@ void ctap_atexit(void)
 void plan(int n)
 {
 	/* remove buffering from stdout / stderr */
-	setvbuf(CTAP.stdout, NULL, _IONBF, 0);
+	setvbuf(CTAP.priv_stdout, NULL, _IONBF, 0);
 	setvbuf(stderr, NULL, _IONBF, 0);
 
 	CTAP.pid = getpid();
@@ -415,16 +415,21 @@ int main(int argc, char **argv)
 	if (out < 0)
 		ctap_bail("failed to dup stdout: %s", strerror(errno));
 
-	nul = open("/dev/null", O_WRONLY);
+#ifdef _WIN32
+	char nullpath[] = "NUL";
+#else
+	char nullpath[] = "/dev/null";
+#endif
+	nul = open(nullpath, O_WRONLY);
 	if (nul < 0)
-		ctap_bail("failed to open /dev/null: %s", strerror(errno));
+		ctap_bail("failed to open %s: %s", nullpath, strerror(errno));
 
-	CTAP.stdout = fdopen(out, "w");
-	if (!CTAP.stdout)
+	CTAP.priv_stdout = fdopen(out, "w");
+	if (!CTAP.priv_stdout)
 		ctap_bail("failed to fdopen stdout: %s", strerror(errno));
 
 	if (dup2(nul, 1) < 0)
-		ctap_bail("failed to redirect stdout to /dev/null: %s", strerror(errno));
+		ctap_bail("failed to redirect stdout to %s: %s", nullpath, strerror(errno));
 
 	no_plan();
 	ctap_tests();
